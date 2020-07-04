@@ -1,0 +1,35 @@
+{
+  "name": "nitro",
+  "version": "0.0.1",
+  "description": "Nitro Front End Proficiency Test",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "yarn test",
+    "start": "node ./server/index.js",
+    "lint": "eslint './**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farewell7117/nitro.git"
+  },
+  "keywords": [
+    "nitro"
+  ],
+  "author": "farewell7117",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/farewell7117/nitro/issues"
+  },
+  "homepage": "https://github.com/farewell7117/nitro#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.5"
+  }
+}
