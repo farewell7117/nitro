@@ -5,10 +5,6 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello, Nitro');
-});
-
 app.get('/posts', (req, res) => {
   res.setHeader('content-type', 'application/json');
   fs.createReadStream(`${__dirname}/data/posts.json`).pipe(res);
