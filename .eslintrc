@@ -1,3 +1,25 @@
 {
-    "extends": "airbnb"
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": "airbnb",
+    "env": {
+        "browser": true
+    },
+    "settings": {
+        "import/resolver": {
+          "node": {
+            "extensions": [".js", ".ts", ".tsx"]
+          }
+        }
+    },
+    "rules": {
+        "import/prefer-default-export": "off",
+        "import/extensions": ["error", "never"],
+        "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
+        "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
+        "react/prop-types": "off"
+    }
 }

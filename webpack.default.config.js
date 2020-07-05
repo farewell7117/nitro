@@ -14,7 +14,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 module.exports = {
   entry: './app/index.tsx',
   resolve: {
-    extensions: [EXT.EXT_JS, EXT.EXT_TSX],
+    extensions: [EXT.EXT_JS, EXT.EXT_TS, EXT.EXT_TSX],
   },
   module: {
     rules: [tsLoader],

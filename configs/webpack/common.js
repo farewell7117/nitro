@@ -1,6 +1,7 @@
 const RE_TSX = /\.ts(x?)$/;
 
 const EXT_JS = '.js';
+const EXT_TS = '.ts';
 const EXT_TSX = '.tsx';
 
 const RE_NODE_MODULES = /\/node_modules\//;
@@ -14,6 +15,7 @@ module.exports = {
   },
   EXT: {
     EXT_JS,
+    EXT_TS,
     EXT_TSX,
   },
   RE_NODE_MODULES,

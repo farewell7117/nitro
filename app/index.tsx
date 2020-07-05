@@ -3,17 +3,20 @@ import * as ReactDOM from 'react-dom';
 
 import { Root as RootContainer } from './containers/root';
 
-const render = (root: React.ReactElement) => ReactDOM.render(
-	root,
-	document.getElementById('app')
-);
+const render = (root: React.ReactElement): void => {
+  ReactDOM.render(
+    root,
+    document.getElementById('app'),
+  );
+};
 
 render(<RootContainer />);
 
 if (module.hot) {
-	module.hot.accept('./containers/root', () => {
-		const { Root: RootContainer } = require('./containers/root');
+  module.hot.accept('./containers/root', () => {
+    // eslint-disable-next-line global-require
+    const { Root: NewRootContainer } = require('./containers/root');
 
-		render(<RootContainer />);
-	});
+    render(<NewRootContainer />);
+  });
 }

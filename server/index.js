@@ -7,6 +7,10 @@ const port = 3000;
 
 app.get('/posts', (req, res) => {
   res.setHeader('content-type', 'application/json');
+  // Allow webpack-dev-server to fetch selected resource
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+
   fs.createReadStream(`${__dirname}/data/posts.json`).pipe(res);
 });
 
