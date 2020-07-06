@@ -1,15 +1,21 @@
 import * as React from 'react';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+
 import { Post } from '../models/post';
 
+import { Select } from '../components/select';
 import { TreeView } from '../components/tree-view';
 
 import { useEffectAsync } from '../utils/hooks';
 import { preprocess } from '../utils/date';
+import { groupBy, Method } from '../utils/group';
 
 export const Root: React.FC = () => {
   const [isLoading, setLoadingFlag] = React.useState(false);
   const [posts, setPosts] = React.useState<Post[]>([]);
+  const [method] = React.useState<Method>('week');
 
   useEffectAsync(async () => {
     try {
@@ -39,7 +45,15 @@ export const Root: React.FC = () => {
 
   return (
     <>
-      <TreeView posts={posts} />
+      <CssBaseline />
+      <Grid container spacing={2}>
+        <Grid item xs>
+          <TreeView groups={groupBy(posts, method)} />
+        </Grid>
+        <Grid item xs>
+          <Select methods={['week', 'author', 'location']} active={method} />
+        </Grid>
+      </Grid>
     </>
   );
 };

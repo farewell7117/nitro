@@ -1,15 +1,53 @@
 import * as React from 'react';
 
-import { Post } from '../models/post';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+
+import { Post, Groups } from '../models/post';
+import { Map } from '../models/common';
 
 import { TreeViewItem } from './tree-view-item';
 
 interface TreeViewProps {
-  posts: Post[];
+  groups: Groups;
 }
 
-export const TreeView: React.FC<TreeViewProps> = ({ posts }) => (
-  <ul>
-    {posts.map((post) => <li key={post.id}><TreeViewItem post={post} /></li>)}
-  </ul>
+const getKey = (group: Post[]) => group[0].id;
+
+const formatKey = (keys: string[]) => keys
+  .map((d) => new Date(d))
+  .map((d) => d.toLocaleDateString())
+  .join(' : ');
+
+const TreeViewHeader: React.FC<{text: string}> = ({ text }) => (
+  <ListSubheader>{text}</ListSubheader>
 );
+
+export const TreeView: React.FC<TreeViewProps> = ({ groups }) => {
+  const [expandable, expand] = React.useState<Map<boolean>>({});
+
+  const handleClick = (id: number) => expand({
+    ...expandable,
+    [id]: !expandable[id],
+  });
+
+  return (
+    <>
+      {groups.groups.map((group: Post[], i) => (
+        <List
+          subheader={<TreeViewHeader text={formatKey(groups.keys[i])} />}
+          key={getKey(group)}
+        >
+          {group.map((post: Post) => (
+            <TreeViewItem
+              post={post}
+              expand={expandable[post.id] === true}
+              key={post.id}
+              onClick={handleClick}
+            />
+          ))}
+        </List>
+      ))}
+    </>
+  );
+};

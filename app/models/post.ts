@@ -1,8 +1,12 @@
 export interface Post {
     id: number;
+    time: number;
     location: string;
-    time: string;
     author: string;
     text: string;
-    week: [number, number];
+}
+
+export interface Groups {
+    groups: Post[][];
+    keys: string[][];
 }
