@@ -59,12 +59,12 @@ export const TreeView: React.FC<TreeViewProps> = ({ posts, sortType, onChange })
 
   return (
     <>
-      {groups.items.map((g: Post[], i) => (
+      {groups.items.map((g, i) => (
         <List
           subheader={<TreeViewHeader text={groups.keys[i]} />}
           key={groups.keys[i]}
         >
-          {g.map((post: Post) => (
+          {g.map((post) => (
             <TreeViewItem
               post={post}
               expand={expandable[post.id] === true}
