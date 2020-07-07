@@ -3,13 +3,13 @@ import * as React from 'react';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import { Post, Groups } from '../models/post';
+import { Post, TreeView as ITreeView } from '../models/post';
 import { Map } from '../models/common';
 
 import { TreeViewItem } from './tree-view-item';
 
 interface TreeViewProps {
-  groups: Groups;
+  groups: ITreeView;
   onChange: (postId: number, key: 'location' | 'author', val: string) => any;
 }
 

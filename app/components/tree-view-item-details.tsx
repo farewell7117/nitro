@@ -22,31 +22,13 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-export const TreeViewItemDetails: React.FC<TreeViewItemDetailsProps> = ({
-  post: outerPost, onChange,
-}) => {
+export const TreeViewItemDetails: React.FC<TreeViewItemDetailsProps> = ({ post, onChange }) => {
   const classes = useStyles();
-
-  const [post, setPost] = React.useState<Post>(outerPost);
 
   const handleLocationChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => setPost({
-    ...post,
-    location: event.target.value,
-  });
-
-  const handleAuthorChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => setPost({
-    ...post,
-    author: event.target.value,
-  });
-
-  const handleLocationBlur = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => onChange('location', event.target.value);
-  const handleAuthorBlur = (
+  const handleAuthorChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => onChange('author', event.target.value);
 
@@ -62,7 +44,6 @@ export const TreeViewItemDetails: React.FC<TreeViewItemDetailsProps> = ({
           id={`location-input-${post.id}`}
           value={post.location}
           onChange={handleLocationChange}
-          onBlur={handleLocationBlur}
         />
       </FormControl>
       <FormControl className={classes.formControl}>
@@ -71,7 +52,6 @@ export const TreeViewItemDetails: React.FC<TreeViewItemDetailsProps> = ({
           id={`author-input-${post.id}`}
           value={post.author}
           onChange={handleAuthorChange}
-          onBlur={handleAuthorBlur}
         />
       </FormControl>
     </>

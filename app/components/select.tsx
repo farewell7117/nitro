@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { default as MaterialSelect } from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { SortType } from '../models/common';
+import { SortType } from '../models/post';
 
 interface SelectProps {
     types: SortType[];

@@ -1,9 +1,8 @@
-import { Post, Groups } from '../models/post';
-import { SortType } from '../models/common';
+import { SortType, Post, TreeView } from '../models/post';
 
 import { calculateWeek, timeToLocalDateFormat } from './date';
 
-const groupByWeek = (posts: Post[]): Groups => posts.reduce((res: Groups, post: Post) => {
+const groupByWeek = (posts: Post[]): TreeView => posts.reduce((res: TreeView, post: Post) => {
   const group = res.items.find(([p]) => {
     const [start, end] = calculateWeek(p.time);
 
@@ -22,7 +21,7 @@ const groupByWeek = (posts: Post[]): Groups => posts.reduce((res: Groups, post: 
   return res;
 }, { items: [], keys: [] });
 
-const groupByAuthor = (posts: Post[]): Groups => posts.reduce((res: Groups, post: Post) => {
+const groupByAuthor = (posts: Post[]): TreeView => posts.reduce((res: TreeView, post: Post) => {
   const group = res.items.find(([p]) => p.author === post.author);
 
   if (group === undefined) {
@@ -35,7 +34,7 @@ const groupByAuthor = (posts: Post[]): Groups => posts.reduce((res: Groups, post
   return res;
 }, { items: [], keys: [] });
 
-const groupByLocation = (posts: Post[]): Groups => posts.reduce((res: Groups, post: Post) => {
+const groupByLocation = (posts: Post[]): TreeView => posts.reduce((res: TreeView, post: Post) => {
   const group = res.items.find(([p]) => p.location.toLowerCase() === post.location.toLowerCase());
 
   if (group === undefined) {
@@ -48,7 +47,7 @@ const groupByLocation = (posts: Post[]): Groups => posts.reduce((res: Groups, po
   return res;
 }, { items: [], keys: [] });
 
-export const groupBy = (posts: Post[], method: SortType) => {
+export const group = (posts: Post[], method: SortType) => {
   switch (method) {
     case 'week':
       return groupByWeek(posts);
