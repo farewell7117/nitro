@@ -1,37 +1,61 @@
 import { Post, Groups } from '../models/post';
+import { SortType } from '../models/common';
 
-import { calculateWeek } from './date';
+import { calculateWeek, timeToLocalDateFormat } from './date';
 
-export type Method = 'week' | 'author' | 'location';
-
-const groupByWeek = (posts: Post[]): Groups => posts.reduce((res, post) => {
-  const group = res.groups.find((_, i) => {
-    const [start, end] = res.keys[i];
+const groupByWeek = (posts: Post[]): Groups => posts.reduce((res: Groups, post: Post) => {
+  const group = res.items.find(([p]) => {
+    const [start, end] = calculateWeek(p.time);
 
     return post.time >= start && post.time <= end;
   });
 
   if (group === undefined) {
-    res.groups.push([post]);
-    res.keys.push(calculateWeek(post.time));
+    const [start] = calculateWeek(post.time);
+
+    res.items.push([post]);
+    res.keys.push(timeToLocalDateFormat(start));
   } else {
     group.push(post);
   }
 
   return res;
-}, {
-  groups: [],
-  keys: [],
-});
+}, { items: [], keys: [] });
 
-export const groupBy = (posts: Post[], method: Method) => {
+const groupByAuthor = (posts: Post[]): Groups => posts.reduce((res: Groups, post: Post) => {
+  const group = res.items.find(([p]) => p.author === post.author);
+
+  if (group === undefined) {
+    res.items.push([post]);
+    res.keys.push(post.author);
+  } else {
+    group.push(post);
+  }
+
+  return res;
+}, { items: [], keys: [] });
+
+const groupByLocation = (posts: Post[]): Groups => posts.reduce((res: Groups, post: Post) => {
+  const group = res.items.find(([p]) => p.location.toLowerCase() === post.location.toLowerCase());
+
+  if (group === undefined) {
+    res.items.push([post]);
+    res.keys.push(post.location);
+  } else {
+    group.push(post);
+  }
+
+  return res;
+}, { items: [], keys: [] });
+
+export const groupBy = (posts: Post[], method: SortType) => {
   switch (method) {
     case 'week':
       return groupByWeek(posts);
     case 'author':
-      throw new Error('Not implemented!');
+      return groupByAuthor(posts);
     case 'location':
-      throw new Error('Not implemented!');
+      return groupByLocation(posts);
     default:
       throw new Error('Not implemented!');
   }

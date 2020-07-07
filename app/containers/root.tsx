@@ -4,20 +4,21 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
 import { Post } from '../models/post';
+import { SortType } from '../models/common';
 
 import { Select } from '../components/select';
 import { TreeView } from '../components/tree-view';
 
 import { useEffectAsync } from '../utils/hooks';
 import { preprocess } from '../utils/date';
-import { groupBy, Method } from '../utils/group';
+import { groupBy } from '../utils/group';
 
 export const Root: React.FC = () => {
   const [isLoading, setLoadingFlag] = React.useState(false);
   const [posts, setPosts] = React.useState<Post[]>([]);
-  const [method] = React.useState<Method>('week');
+  const [sortType, setSortType] = React.useState<SortType>('week');
 
-  const handleChange = (postId: number, key: 'location' | 'author', val: string) => setPosts(
+  const handlePostChange = (postId: number, key: 'location' | 'author', val: string) => setPosts(
     posts.map((p) => {
       if (p.id === postId) {
         return {
@@ -30,6 +31,8 @@ export const Root: React.FC = () => {
       };
     }),
   );
+
+  const handleSortTypeChange = (val: SortType) => setSortType(val);
 
   useEffectAsync(async () => {
     try {
@@ -62,10 +65,14 @@ export const Root: React.FC = () => {
       <CssBaseline />
       <Grid container spacing={2}>
         <Grid item xs>
-          <TreeView groups={groupBy(posts, method)} onChange={handleChange} />
+          <TreeView groups={groupBy(posts, sortType)} onChange={handlePostChange} />
         </Grid>
         <Grid item xs>
-          <Select methods={['week', 'author', 'location']} active={method} />
+          <Select
+            types={['week', 'author', 'location']}
+            active={sortType}
+            onChange={handleSortTypeChange}
+          />
         </Grid>
       </Grid>
     </>

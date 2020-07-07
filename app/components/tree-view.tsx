@@ -8,18 +8,10 @@ import { Map } from '../models/common';
 
 import { TreeViewItem } from './tree-view-item';
 
-import { timeToLocalDateFormat } from '../utils/date';
-
 interface TreeViewProps {
   groups: Groups;
   onChange: (postId: number, key: 'location' | 'author', val: string) => any;
 }
-
-const getKey = (group: Post[]) => group[0].id;
-
-const formatKey = (keys: number[]) => keys
-  .map(timeToLocalDateFormat)
-  .join(' : ');
 
 const TreeViewHeader: React.FC<{text: string}> = ({ text }) => (
   <ListSubheader>{text}</ListSubheader>
@@ -35,10 +27,10 @@ export const TreeView: React.FC<TreeViewProps> = ({ groups, onChange: handleChan
 
   return (
     <>
-      {groups.groups.map((group: Post[], i) => (
+      {groups.items.map((group: Post[], i) => (
         <List
-          subheader={<TreeViewHeader text={formatKey(groups.keys[i])} />}
-          key={getKey(group)}
+          subheader={<TreeViewHeader text={groups.keys[i]} />}
+          key={groups.keys[i]}
         >
           {group.map((post: Post) => (
             <TreeViewItem

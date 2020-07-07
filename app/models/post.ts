@@ -7,6 +7,6 @@ export interface Post {
 }
 
 export interface Groups {
-    groups: Post[][];
-    keys: number[][];
+    items: Post[][];
+    keys: string[];
 }
