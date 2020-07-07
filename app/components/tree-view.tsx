@@ -8,15 +8,16 @@ import { Map } from '../models/common';
 
 import { TreeViewItem } from './tree-view-item';
 
+import { timeToLocalDateFormat } from '../utils/date';
+
 interface TreeViewProps {
   groups: Groups;
 }
 
 const getKey = (group: Post[]) => group[0].id;
 
-const formatKey = (keys: string[]) => keys
-  .map((d) => new Date(d))
-  .map((d) => d.toLocaleDateString())
+const formatKey = (keys: number[]) => keys
+  .map(timeToLocalDateFormat)
   .join(' : ');
 
 const TreeViewHeader: React.FC<{text: string}> = ({ text }) => (

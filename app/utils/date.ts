@@ -14,3 +14,5 @@ export const calculateWeek = (time: number): [number, number] => {
 
   return [startDate.getTime(), endDate.getTime()];
 };
+
+export const timeToLocalDateFormat = (time: number) => (new Date(time)).toLocaleDateString();

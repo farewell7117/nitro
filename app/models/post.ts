@@ -8,5 +8,5 @@ export interface Post {
 
 export interface Groups {
     groups: Post[][];
-    keys: string[][];
+    keys: number[][];
 }

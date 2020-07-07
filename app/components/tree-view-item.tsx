@@ -2,12 +2,17 @@ import * as React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import ListItemText from '@material-ui/core/ListItemText';
-import MessageIcon from '@material-ui/icons/Message';
+import Collapse from '@material-ui/core/Collapse';
 
 import { Post } from '../models/post';
+
+import { TreeViewItemDetails } from './tree-view-item-details';
 
 interface TreeViewItemProps {
     post: Post;
@@ -16,11 +21,16 @@ interface TreeViewItemProps {
 }
 
 const useStyles = makeStyles(() => createStyles({
-  paper: {
+  listItem: {
     cursor: 'pointer',
+  },
+  paper: {
     '& + &': {
       marginTop: 5,
     },
+  },
+  nested: {
+    paddingLeft: 72,
   },
 }));
 
@@ -30,17 +40,20 @@ export const TreeViewItem: React.FC<TreeViewItemProps> = ({ post, expand, onClic
 
   return (
     <>
-      <Paper
-        className={classes.paper}
-        onClick={handleClick}
-      >
-        <ListItem>
+      <Paper className={classes.paper}>
+        <ListItem className={classes.listItem} onClick={handleClick}>
           <ListItemIcon>
-            <MessageIcon />
+            {expand ? <ExpandLess /> : <ExpandMore />}
           </ListItemIcon>
           <ListItemText>{post.text}</ListItemText>
         </ListItem>
-        {expand && <div>1</div>}
+        <Collapse in={expand} timeout="auto" unmountOnExit>
+          <List>
+            <ListItem className={classes.nested}>
+              <TreeViewItemDetails post={post} />
+            </ListItem>
+          </List>
+        </Collapse>
       </Paper>
     </>
   );

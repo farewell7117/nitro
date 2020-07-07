@@ -1,4 +1,4 @@
-import { preprocess, calculateWeek } from './date';
+import { preprocess, calculateWeek, timeToLocalDateFormat } from './date';
 
 describe('date utility', () => {
   it('should preprocess data correctly', () => {
@@ -22,5 +22,11 @@ describe('date utility', () => {
 
     expect(new Date(week[0]).toDateString()).toBe('Mon Jul 06 2020');
     expect(new Date(week[1]).toDateString()).toBe('Sun Jul 12 2020');
+  });
+
+  it('should display time in local date format', () => {
+    const time = 1594038225 * 1000;
+
+    expect(timeToLocalDateFormat(time)).toBe('7/6/2020');
   });
 });
