@@ -17,6 +17,20 @@ export const Root: React.FC = () => {
   const [posts, setPosts] = React.useState<Post[]>([]);
   const [method] = React.useState<Method>('week');
 
+  const handleChange = (postId: number, key: 'location' | 'author', val: string) => setPosts(
+    posts.map((p) => {
+      if (p.id === postId) {
+        return {
+          ...p,
+          [key]: val,
+        };
+      }
+      return {
+        ...p,
+      };
+    }),
+  );
+
   useEffectAsync(async () => {
     try {
       setLoadingFlag(true);
@@ -48,7 +62,7 @@ export const Root: React.FC = () => {
       <CssBaseline />
       <Grid container spacing={2}>
         <Grid item xs>
-          <TreeView groups={groupBy(posts, method)} />
+          <TreeView groups={groupBy(posts, method)} onChange={handleChange} />
         </Grid>
         <Grid item xs>
           <Select methods={['week', 'author', 'location']} active={method} />

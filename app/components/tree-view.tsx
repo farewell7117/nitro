@@ -12,6 +12,7 @@ import { timeToLocalDateFormat } from '../utils/date';
 
 interface TreeViewProps {
   groups: Groups;
+  onChange: (postId: number, key: 'location' | 'author', val: string) => any;
 }
 
 const getKey = (group: Post[]) => group[0].id;
@@ -24,7 +25,7 @@ const TreeViewHeader: React.FC<{text: string}> = ({ text }) => (
   <ListSubheader>{text}</ListSubheader>
 );
 
-export const TreeView: React.FC<TreeViewProps> = ({ groups }) => {
+export const TreeView: React.FC<TreeViewProps> = ({ groups, onChange: handleChange }) => {
   const [expandable, expand] = React.useState<Map<boolean>>({});
 
   const handleClick = (id: number) => expand({
@@ -45,6 +46,7 @@ export const TreeView: React.FC<TreeViewProps> = ({ groups }) => {
               expand={expandable[post.id] === true}
               key={post.id}
               onClick={handleClick}
+              onChange={handleChange}
             />
           ))}
         </List>

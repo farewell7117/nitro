@@ -18,6 +18,7 @@ interface TreeViewItemProps {
     post: Post;
     expand: boolean;
     onClick: (id: number) => any;
+    onChange: (postId: number, key: 'location' | 'author', val: string) => any;
 }
 
 const useStyles = makeStyles(() => createStyles({
@@ -34,9 +35,13 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-export const TreeViewItem: React.FC<TreeViewItemProps> = ({ post, expand, onClick }) => {
+export const TreeViewItem: React.FC<TreeViewItemProps> = ({
+  post, expand, onClick, onChange,
+}) => {
   const classes = useStyles();
+
   const handleClick = () => onClick(post.id);
+  const handleChange = (key: 'location' | 'author', val: string) => onChange(post.id, key, val);
 
   return (
     <>
@@ -50,7 +55,7 @@ export const TreeViewItem: React.FC<TreeViewItemProps> = ({ post, expand, onClic
         <Collapse in={expand} timeout="auto" unmountOnExit>
           <List>
             <ListItem className={classes.nested}>
-              <TreeViewItemDetails post={post} />
+              <TreeViewItemDetails post={post} onChange={handleChange} />
             </ListItem>
           </List>
         </Collapse>
