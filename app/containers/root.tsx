@@ -56,7 +56,7 @@ export const Root: React.FC = () => {
 
   if (posts === null) {
     return (
-      <>No data available.</>
+      <>No data available. Make sure you have run your server.</>
     );
   }
 
