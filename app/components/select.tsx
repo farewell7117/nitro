@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import Typography from '@material-ui/core/Typography';
 // eslint-disable-next-line import/no-named-default
 import { default as MaterialSelect } from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -18,14 +19,17 @@ export const Select: React.FC<SelectProps> = ({ types, active, onChange }) => {
   ) => onChange(event.target.value);
 
   return (
-    <MaterialSelect
-      autoWidth
-      value={active}
-      onChange={handleChange}
-    >
-      {types.map((type) => (
-        <MenuItem value={type} key={type}>{`By ${type}`}</MenuItem>
-      ))}
-    </MaterialSelect>
+    <>
+      <Typography display="inline">Sort by: </Typography>
+      <MaterialSelect
+        autoWidth
+        value={active}
+        onChange={handleChange}
+      >
+        {types.map((type) => (
+          <MenuItem value={type} key={type}>{type}</MenuItem>
+        ))}
+      </MaterialSelect>
+    </>
   );
 };

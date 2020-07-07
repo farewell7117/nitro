@@ -69,7 +69,7 @@ export const Root: React.FC = () => {
         </Grid>
         <Grid item xs>
           <Select
-            types={['week', 'author', 'location']}
+            types={['week', 'location', 'author']}
             active={sortType}
             onChange={handleSortTypeChange}
           />

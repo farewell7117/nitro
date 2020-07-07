@@ -52,10 +52,10 @@ export const groupBy = (posts: Post[], method: SortType) => {
   switch (method) {
     case 'week':
       return groupByWeek(posts);
-    case 'author':
-      return groupByAuthor(posts);
     case 'location':
       return groupByLocation(posts);
+    case 'author':
+      return groupByAuthor(posts);
     default:
       throw new Error('Not implemented!');
   }
