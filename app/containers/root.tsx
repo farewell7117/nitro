@@ -10,7 +10,6 @@ import { TreeView } from '../components/tree-view';
 
 import { useEffectAsync } from '../utils/hooks';
 import { preprocess } from '../utils/date';
-import { group } from '../utils/group';
 
 export const Root: React.FC = () => {
   const [isLoading, setLoadingFlag] = React.useState(false);
@@ -25,9 +24,8 @@ export const Root: React.FC = () => {
           [key]: val,
         };
       }
-      return {
-        ...p,
-      };
+
+      return p;
     }),
   );
 
@@ -65,7 +63,7 @@ export const Root: React.FC = () => {
       <CssBaseline />
       <Grid container spacing={2}>
         <Grid item xs>
-          <TreeView groups={group(posts, sortType)} onChange={handlePostChange} />
+          <TreeView posts={posts} sortType={sortType} onChange={handlePostChange} />
         </Grid>
         <Grid item xs>
           <Select
