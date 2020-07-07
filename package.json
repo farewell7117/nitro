@@ -8,7 +8,7 @@
     "start:server": "node ./server/index.js",
     "start": "webpack-dev-server",
     "build": "webpack",
-    "lint": "eslint . --ext .js --ext .ts --ext .tsx",
+    "lint": "eslint . --ext .js --ext .jsx --ext .ts --ext .tsx",
     "lint:fix": "yarn lint -- --fix"
   },
   "repository": {
