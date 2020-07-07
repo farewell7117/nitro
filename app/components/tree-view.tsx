@@ -23,7 +23,7 @@ const TreeViewHeader: React.FC<{text: string}> = ({ text }) => (
 export const TreeView: React.FC<TreeViewProps> = ({ posts, sortType, onChange }) => {
   const [expandable, expand] = React.useState<Map<boolean>>({});
   const [groups, setGroups] = React.useState<ITreeView>(group(posts, sortType));
-  const [currentType, setSorType] = React.useState<SortType>(sortType);
+  const [currentType, setSortType] = React.useState<SortType>(sortType);
 
   const handleClick = (id: number) => expand({
     ...expandable,
@@ -54,7 +54,7 @@ export const TreeView: React.FC<TreeViewProps> = ({ posts, sortType, onChange })
 
   if (currentType !== sortType) {
     setGroups(group(posts, sortType));
-    setSorType(sortType);
+    setSortType(sortType);
   }
 
   return (
