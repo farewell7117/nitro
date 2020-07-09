@@ -59,3 +59,9 @@ export const group = (posts: Post[], method: SortType) => {
       throw new Error('Not implemented!');
   }
 };
+
+export const regroup = (groups: TreeView, method: SortType) => {
+  const posts = groups.items.reduce((res: Post[], g) => res.concat(g), []);
+
+  return group(posts, method);
+};

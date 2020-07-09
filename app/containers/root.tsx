@@ -3,44 +3,60 @@ import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
-import { SortType, Post } from '../models/post';
+import { SortType, TreeView as ITreeView } from '../models/post';
 
 import { Select } from '../components/select';
 import { TreeView } from '../components/tree-view';
 
 import { useEffectAsync } from '../utils/hooks';
 import { preprocess } from '../utils/date';
+import { group, regroup } from '../utils/group';
 
 export const Root: React.FC = () => {
   const [isLoading, setLoadingFlag] = React.useState(false);
-  const [posts, setPosts] = React.useState<Post[]>([]);
+  const [groups, setGroups] = React.useState<ITreeView>({ items: [], keys: [] });
   const [sortType, setSortType] = React.useState<SortType>('week');
 
-  const handlePostChange = (postId: number, key: 'location' | 'author', val: string) => setPosts(
-    posts.map((p) => {
-      if (p.id === postId) {
-        return {
-          ...p,
-          [key]: val,
-        };
-      }
+  const handlePostChange = (postId: number, key: 'location' | 'author', val: string) => {
+    const items = groups.items.map(
+      (g) => g.map((p) => {
+        if (p.id === postId) {
+          return {
+            ...p,
+            [key]: val,
+          };
+        }
 
-      return p;
-    }),
-  );
+        return p;
+      }),
+    );
 
-  const handleSortTypeChange = (val: SortType) => setSortType(val);
+    setGroups({
+      ...groups,
+      items,
+    });
+  };
+
+  const handleSortTypeChange = (val: SortType) => {
+    setGroups(regroup(groups, val));
+    setSortType(val);
+  };
 
   useEffectAsync(async () => {
     try {
       setLoadingFlag(true);
 
       const response = await fetch('http://localhost:3000/posts');
-      const result = response.ok ? preprocess(await response.json()) : null;
 
-      setPosts(result);
+      if (response.ok) {
+        const result = preprocess(await response.json());
+
+        setGroups(group(result, sortType));
+      } else {
+        setGroups(null);
+      }
     } catch {
-      setPosts(null);
+      setGroups(null);
     } finally {
       setLoadingFlag(false);
     }
@@ -52,7 +68,7 @@ export const Root: React.FC = () => {
     );
   }
 
-  if (posts === null) {
+  if (groups === null) {
     return (
       <>No data available. Make sure you have run your server.</>
     );
@@ -63,7 +79,7 @@ export const Root: React.FC = () => {
       <CssBaseline />
       <Grid container spacing={2}>
         <Grid item xs>
-          <TreeView posts={posts} sortType={sortType} onChange={handlePostChange} />
+          <TreeView groups={groups} onChange={handlePostChange} />
         </Grid>
         <Grid item xs>
           <Select

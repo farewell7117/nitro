@@ -1,4 +1,4 @@
-import { group } from './group';
+import { group, regroup } from './group';
 
 describe('grouping utility', () => {
   it('should group items by weeks', () => {
@@ -68,5 +68,22 @@ describe('grouping utility', () => {
 
     expect(group(data2, 'location').items[0]).toHaveLength(1);
     expect(group(data2, 'location').items[1]).toHaveLength(1);
+  });
+
+  it('should regroup items correctly', () => {
+    const data = [
+      { id: 1, location: 'Dublin city', author: 'Oscar Wild' },
+      { id: 2, location: 'Dublin city', author: 'J. K. Rowling' },
+    ];
+
+    let groups = group(data, 'location');
+
+    expect(groups.items.length).toBe(1);
+    expect(groups.keys.length).toBe(1);
+
+    groups = regroup(groups, 'author');
+
+    expect(groups.items.length).toBe(2);
+    expect(groups.keys.length).toBe(2);
   });
 });
